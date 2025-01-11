@@ -116,10 +116,12 @@ main#main-play {
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      border: 1px solid #5557;
-      border-style: dotted;
+      /* border: 1px solid #5557; */
+      /* border-style: dotted; */
       transition: background-color 0.2s ease;
       user-select: none;
+      box-shadow: inset 4px 4px 10px rgba(255, 255, 255, 0.1),
+        inset -3px -3px 6px rgba(0, 0, 0, 0.2);
 
       &:hover {
         background-color: #444;
@@ -130,6 +132,8 @@ main#main-play {
         cursor: not-allowed;
         font-size: 10px;
         color: #ccc;
+        box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.2),
+          inset -3px -3px 6px rgba(255, 255, 255, 0.1);
       }
     }
   }
@@ -272,8 +276,6 @@ dialog[open]::backdrop {
   backdrop-filter: blur(4px);
   position: relative;
 }
-
-
 
 dialog#new-game-dialog {
   transition-delay: 100ms;
@@ -472,11 +474,9 @@ dialog#game-won {
   }
 }
 
-
 dialog#game-paused {
   width: 360px;
   scrollbar-gutter: initial;
-
 
   main {
     width: 100%;
@@ -503,7 +503,6 @@ dialog#game-paused {
     }
   }
 }
-
 
 @keyframes spin {
   to {
