@@ -99,7 +99,7 @@ main#main-play {
 
 .game-board {
   --game-board-size: 15;
-  --cell-size: 55px;
+  --cell-size: 45px;
 
   display: grid;
   grid-template-columns: repeat(var(--game-board-size), calc(var(--cell-size) + 10px));
