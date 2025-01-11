@@ -93,13 +93,19 @@ function renderGameBoard() {
       const divCell = document.createElement("div");
 
       let text = "";
-      text = cell.thereIsBoom && GAME_FINISHED ? "💣" : "";
+      text = cell.thereIsBoom && true ? "💣" : "";
       text = cell.thereIsFlag ? "🏳️" : text;
       text = cell.exploted ? "💥" : text;
       if (cell.cantBoomsNearby > 0 && cell.isCleaned)
         text = `${cell.cantBoomsNearby}`;
 
       if (cell.isCleaned) divCell.classList.add("cleaned");
+      if (cell.cantBoomsNearby === 1) divCell.classList.add("one-boom");
+      if (cell.cantBoomsNearby === 2) divCell.classList.add("two-boom");
+      if (cell.cantBoomsNearby === 3) divCell.classList.add("three-boom");
+      if (cell.cantBoomsNearby === 4) divCell.classList.add("four-boom");
+      if (cell.cantBoomsNearby === 5) divCell.classList.add("five-boom");
+      if (cell.cantBoomsNearby >= 6) divCell.classList.add("more-boom");
 
       divCell.classList.add("cell");
       divCell.innerText = text;
@@ -325,6 +331,7 @@ function openNewGameDialog() {
 
 function closeNewGameDialog() {
   $newGameDialog.close();
+  removeDialogBody();
 }
 
 function gameStartEvent(event) {
@@ -369,6 +376,7 @@ function resetGame() {
     });
   });
 
+  removeDialogBody();
   $gamePausedDialog.close();
   SECONDS = 0;
   PLAYING = true;
@@ -427,8 +435,8 @@ function pauseGame() {
 function resumeGame() {
   INTERVAL = setInterval(timeProgress, 1000);
   GAME_PAUSED = false;
-
   $gamePausedDialog.close();
+  removeDialogBody();
 }
 
 function play() {
