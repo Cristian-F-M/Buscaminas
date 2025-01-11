@@ -93,7 +93,7 @@ function renderGameBoard() {
       const divCell = document.createElement("div");
 
       let text = "";
-      text = cell.thereIsBoom && true ? "💣" : "";
+      text = cell.thereIsBoom && GAME_FINISHED ? "💣" : "";
       text = cell.thereIsFlag ? "🏳️" : text;
       text = cell.exploted ? "💥" : text;
       if (cell.cantBoomsNearby > 0 && cell.isCleaned)
