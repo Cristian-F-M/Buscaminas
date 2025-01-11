@@ -86,8 +86,8 @@ function renderGameBoard() {
   );
 
   GAME_BOARD.forEach((col, colIndex) => {
-    const divRow = document.createElement("div");
-    divRow.classList.add("col");
+    // const divRow = document.createElement("div");
+    // divRow.classList.add("col");
 
     col.forEach((cell, cellIndex) => {
       const divCell = document.createElement("div");
@@ -113,10 +113,10 @@ function renderGameBoard() {
       divCell.setAttribute("data-y", cell.y);
       divCell.addEventListener("contextmenu", clickEvent);
       divCell.addEventListener("click", clickEvent);
-      divRow.appendChild(divCell);
+      // divRow.appendChild(divCell);
+      $gameBoard.appendChild(divCell);
     });
 
-    $gameBoard.appendChild(divRow);
   });
 }
 
@@ -313,16 +313,16 @@ function openNewGameDialog() {
 
   if (preferences) {
     const { isSizeCustom, sizeValue } = preferences;
+    let input = document.querySelector(
+      `input[name='size'][id='size-${sizeValue}x${sizeValue}']`
+    );
 
     if (isSizeCustom) {
-      const input = document.querySelector(
-        `input[name='size'][id='size-custom']`
-      );
-      input.checked = true;
-
+      input = document.querySelector(`input[name='size'][id='size-custom']`);
       $customValueInput.value = sizeValue;
       $customValue.setAttribute("show", isSizeCustom);
     }
+    input.checked = true;
   }
 
   addDialogBody();
