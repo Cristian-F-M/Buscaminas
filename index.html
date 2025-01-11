@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="main.css">
+  <script type="module" src="main.js"></script>
+  <title>Buscaminas</title>
+</head>
+
+<body>
+  <main id="main-play">
+    <div class="stats">
+      <div id="flags" class="flags">7🏳️</div>
+      <div id="current-time" class="current-time">0s</div>
+    </div>
+    <div id="game-board" class="game-board">
+    </div>
+  </main>
+
+  <dialog id="new-game-dialog">
+    <header>
+      <h2>Buscaminas</h2>
+      <div class="icons">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cda817" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bomb w-6 h-6 text-yellow-400">
+          <circle cx="11" cy="13" r="9"></circle>
+          <path d="M14.35 4.65 16.3 2.7a2.41 2.41 0 0 1 3.4 0l1.6 1.6a2.4 2.4 0 0 1 0 3.4l-1.95 1.95"></path>
+          <path d="m22 2-1.5 1.5"></path>
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flag w-6 h-6 text-red-400">
+          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+          <line x1="4" x2="4" y1="22" y2="15"></line>
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy w-6 h-6 text-green-400">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+      </div>
+    </header>
+    <main>
+      <p>¡Bienvenido al clásico juego de Buscaminas! Pon a prueba tu lógica y suerte.</p>
+
+      <h3>Selecciona el tamaño del tablero:</h3>
+      <ul>
+        <li>
+          <input id="size-10x10" type="radio" name="size" value="10" checked>
+          <label for="size-10x10">
+            10x10
+          </label>
+        </li>
+        <li>
+          <input id="size-12x12" type="radio" name="size" value="12">
+          <label for="size-12x12">
+            12x12
+          </label>
+        </li>
+        <li>
+          <input id="size-14x14" type="radio" name="size" value="14">
+          <label for="size-14x14">
+            14x14
+          </label>
+        </li>
+        <li>
+          <input id="size-custom" type="radio" name="size" value="custom">
+          <label for="size-custom">
+            Personalizado
+          </label>
+
+          <div id="custom-value" class="custom-value">
+            <input id="size-cutom-value" type="number" min="6" max="20" placeholder="Tamaño">
+          </div>
+        </li>
+      </ul>
+      <button id="play">Play</button>
+    </main>
+  </dialog>
+
+
+  <dialog id="game-over">
+    <header>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-frown w-8 h-8 mr-2 text-red-500">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M16 16s-1.5-2-4-2-4 2-4 2"></path>
+        <line x1="9" x2="9.01" y1="9" y2="9"></line>
+        <line x1="15" x2="15.01" y1="9" y2="9"></line>
+      </svg>
+      <h2>¡Game Over!</h2>
+    </header>
+
+    <main>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#933238" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="boom lucide lucide-bomb w-6 h-6 text-yellow-400">
+        <circle cx="11" cy="13" r="9"></circle>
+        <path d="M14.35 4.65 16.3 2.7a2.41 2.41 0 0 1 3.4 0l1.6 1.6a2.4 2.4 0 0 1 0 3.4l-1.95 1.95"></path>
+        <path d="m22 2-1.5 1.5"></path>
+      </svg>
+
+      <p>¡Has perdido! Mejor suerte la próxima vez.</p>
+
+
+      <div class="end-game-score">
+        <span>Puntuación: <span id="score">0</span> puntos</span>
+        <span>Tiempo: <span id="time">0</span> segundos</span>
+      </div>
+
+      <button class="play-again">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw w-4 h-4 mr-2">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+        Jugar de nuevo
+      </button>
+    </main>
+
+  </dialog>
+
+
+  <dialog id="game-won">
+    <header>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy w-10 h-10 mr-2 text-yellow-400">
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+        <path d="M4 22h16"></path>
+        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+      </svg>
+      <h2>¡Has Ganado!</h2>
+    </header>
+
+    <main>
+
+      <div class="fireworks">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-sparkle w-12 h-12 text-purple-400 animate-spin">
+          <path
+            d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
+          </path>
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-sparkle w-12 h-12 text-purple-400 animate-spin">
+          <path
+            d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
+          </path>
+        </svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-sparkle w-12 h-12 text-purple-400 animate-spin">
+          <path
+            d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z">
+          </path>
+        </svg>
+      </div>
+
+
+      <p>¡Felicidades! Has completado el Buscaminas.</p>
+
+
+      <div class="won-game-score">
+        <div class="card card-score">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-star w-6 h-6 text-yellow-400 mx-auto mb-2">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+            </polygon>
+          </svg>
+          Puntuación: <span id="won-score">596</span>
+        </div>
+
+
+
+        <div class="card card-time">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-clock w-6 h-6 text-blue-400 mx-auto mb-2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Tiempo: <span id="won-time">0s</span>
+        </div>
+      </div>
+
+      <button class="play-again">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw w-4 h-4 mr-2">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+        Jugar de nuevo
+      </button>
+
+
+    </main>
+  </dialog>
+
+
+  <dialog id="game-paused">
+    <header>
+      <h2>Juego Pausado</h2>
+    </header>
+
+    <main>
+      <button id="resume-game">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play w-4 h-4 mr-2">
+          <polygon points="6 3 20 12 6 21 6 3"></polygon>
+        </svg>
+        Reanuda Juego
+      </button>
+      <button id="reset-game">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw w-4 h-4 mr-2">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+        </svg>
+        Reiniciar Juego
+      </button>
+    </main>
+  </dialog>
+
+</body>
+
+</html>
